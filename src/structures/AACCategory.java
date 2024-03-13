@@ -1,5 +1,5 @@
+// import structures.*;
 package structures;
-
 
 public class AACCategory {
   /**
@@ -7,6 +7,8 @@ public class AACCategory {
    * Represents the mappings for a single page of items that should be displayed.
    *
    * @author Arsal Shaikh
+   * @author Catie Baker
+   * @author Samuel A. Rebelsky
    */
   
   /**
@@ -35,7 +37,7 @@ public class AACCategory {
     try {
       this.mappings.set(imageLoc, text);
     } catch (NullKeyException nke) {
-      // TODO: handle exception
+      System.err.println("Please enter a valid image location.");
     }
   } // class addItem(String, String)
 
@@ -60,8 +62,6 @@ public class AACCategory {
     } // for
     
     return images.split("\n");
-    // TODO
-    // return this.mappings.toString();
   } // getImages()
 
   /**
@@ -76,7 +76,7 @@ public class AACCategory {
       result = this.mappings.get(imageLoc);
     } catch (KeyNotFoundException kne) {
       return "Not Found.";
-    }
+    } // try catch
 
     return result;
   } // getText(String)

@@ -7,6 +7,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+// import structures.*;
+
+
+
 
 public class AACMappings {
   /**
@@ -14,16 +18,18 @@ public class AACMappings {
    * Stores the mapping of the images on the home page to the AACCategories.
    *
    * @author Arsal Shaikh
+   * @author Catie Baker
+   * @author Samuel A. Rebelsky
    */
   
   /**
    * Fields
   */
-
   AssociativeArray<String, AACCategory> categoryMappings; // maps category names to category objects
   AACCategory homepage; // maps category names too category images
   AACCategory currentCategory; // object tracking the current category being displayed
   File pathFile;
+
 
   /**
    * Constructor 
@@ -79,8 +85,6 @@ public class AACMappings {
     } catch (FileNotFoundException e) {
       System.err.println("File not Found");
     }
-
-    // TOOD: Start AAC on homescreen.
   } // AACMappings(String)
 
   /**
@@ -133,17 +137,17 @@ public class AACMappings {
    * @param imageLoc
    * @return name of the category or text associated with given image
    */
-  public String getText(String imageLoc) throws ElementNotFoundException {
+  public String getText(String imageLoc) throws Exception {
     String result = this.currentCategory.getText(imageLoc);
     if (result.equals("Not Found")) {
-      throw new ElementNotFoundException();
+      throw new Exception();
     } // if (image not found)
 
     if (this.currentCategory.equals(this.homepage)) {
       try {
         this.currentCategory = this.categoryMappings.get(imageLoc);
       } catch (KeyNotFoundException knfe) {
-        throw new ElementNotFoundException();
+        throw new Exception();
       }
     } // if (on homepage)
     return result;
@@ -192,7 +196,7 @@ public class AACMappings {
   } // writeToFile(String)
 
   /**
-   * Concatenates conzecutive arguments in a string array based on startIndex and endIndex.
+   * Concatenates consecutive arguments in a string array based on startIndex and endIndex.
    * @param arr
    * @param startIndex 
    * @param endIndex

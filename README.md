@@ -1,6 +1,6 @@
 # MP5: AACs
 
-### @author catiembaker
+### @author Catie Baker
 ### @author Arsal Shaikh
 ### @author Samuel A. Rebelsky
 

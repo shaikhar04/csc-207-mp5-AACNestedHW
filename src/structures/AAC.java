@@ -1,3 +1,5 @@
+package structures;
+
 import javax.swing.JFrame; 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,8 +20,6 @@ import javax.speech.Central;
 import javax.speech.synthesis.Synthesizer;
 import javax.speech.synthesis.SynthesizerModeDesc;
 
-import structures.AACMappings;
-import structures.ElementNotFoundException;
 
 /**
  * Creates a GUI that has a grid of images that represent the 
@@ -200,7 +200,7 @@ public class AAC implements ActionListener {
 			if(this.aacMappings.getCurrentCategory().equals("")) {
 				try {
 					this.aacMappings.getText(actionCommand);
-				} catch (ElementNotFoundException enfe) {};
+				} catch (Exception enfe) {};
 				this.images = this.aacMappings.getImageLocs();
 				this.startIndex = 0;
 				this.endIndex = Math.min(NUM_ACROSS*NUM_DOWN, this.images.length);

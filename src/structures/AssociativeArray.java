@@ -229,8 +229,10 @@ public class AssociativeArray<K, V> implements Iterable<KVPair<K, V>> {
     throw new KeyNotFoundException();
   } // findNull()
 
-  // ...
-
+  /**
+   * Method
+   * Implements iterator for AssociativeArray using an anonymous class. 
+   */
   public Iterator<KVPair<K, V>>  iterator() {
     return new Iterator<KVPair<K, V>>() {
       int index = AssociativeArray.this.size - 1;
@@ -247,6 +249,6 @@ public class AssociativeArray<K, V> implements Iterable<KVPair<K, V>> {
       public boolean hasNext() {
         return this.index >= AssociativeArray.this.size;
       } // hasNext()
-    }; // new Iterator<T>
+    }; // new Iterator<KVPair<K, V>>
   } // iterator()
 } // class AssociativeArray<K, V>

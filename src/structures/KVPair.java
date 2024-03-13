@@ -4,7 +4,7 @@ package structures;
  * An easy way to store key/value pairs.  We assume that other
  * classes will access fields directly.
  */
-class KVPair<K,V> {
+public class KVPair<K,V> {
   // +--------+------------------------------------------------------
   // | Fields |
   // +--------+
