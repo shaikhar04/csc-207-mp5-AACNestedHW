@@ -18,6 +18,9 @@ import javax.speech.Central;
 import javax.speech.synthesis.Synthesizer;
 import javax.speech.synthesis.SynthesizerModeDesc;
 
+import structures.AACMappings;
+import structures.ElementNotFoundException;
+
 /**
  * Creates a GUI that has a grid of images that represent the 
  * communication device of the AAC.
@@ -195,7 +198,9 @@ public class AAC implements ActionListener {
 		}
 		else {
 			if(this.aacMappings.getCurrentCategory().equals("")) {
-				this.aacMappings.getText(actionCommand);
+				try {
+					this.aacMappings.getText(actionCommand);
+				} catch (ElementNotFoundException enfe) {};
 				this.images = this.aacMappings.getImageLocs();
 				this.startIndex = 0;
 				this.endIndex = Math.min(NUM_ACROSS*NUM_DOWN, this.images.length);

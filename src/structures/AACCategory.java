@@ -1,14 +1,13 @@
-import structures.AssociativeArray;
-import structures.NullKeyException;
+package structures;
 
-/**
- * AACCategory
- * TODO DESCRIPTION
- *
- * @author Arsal Shaikh
- */
 
 public class AACCategory {
+  /**
+   * AACCategory
+   * Represents the mappings for a single page of items that should be displayed.
+   *
+   * @author Arsal Shaikh
+   */
   
   /**
    * Fields
@@ -24,7 +23,6 @@ public class AACCategory {
   public AACCategory(String name) {
     this.name = name;
     this.mappings = new AssociativeArray<String, String>();
-    // STUB
   } // AACCategory(String)
 
   /**
@@ -53,33 +51,43 @@ public class AACCategory {
   /**
    * Method
    * Returns an array of all the images in the category.
-   * @return
+   * @return result of toString() method
    */
   public String[] getImages() {
-    return new String[] {}; // STUB
+    String images = "";
+    for (KVPair<String, String> pair : this.mappings) {
+      images += ">" + pair.getKey() + " " + pair.getValue() + "\n";
+    } // for
+    
+    return images.split("\n");
+    // TODO
+    // return this.mappings.toString();
   } // getImages()
 
   /**
    * Method
    * Returns the text associated with the given image loc in this category.
    * @param imageLoc
-   * @return 
+   * @return filepath of the image or "Not Found"
    */
   public String getText(String imageLoc) {
+    String result;
     try {
-      return this.mappings.get(imageLoc);
-    } catch (NullKeyException nke) {
-      return "Not Found."
+      result = this.mappings.get(imageLoc);
+    } catch (KeyNotFoundException kne) {
+      return "Not Found.";
     }
+
+    return result;
   } // getText(String)
 
   /**
    * Method
    * Determines if the provided images is stored in the category.
    * @param imageLoc
-   * @return
+   * @return result of hasKey(imageLoc)
    */
   public boolean hasImage(String imageLoc) {
-    // STUB
+    return this.mappings.hasKey(imageLoc);
   } // class hasImage(String)
 } // class AACCategory

@@ -1,6 +1,8 @@
 package structures;
 
 import static java.lang.reflect.Array.newInstance;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * A basic implementation of Associative Arrays with keys of type K
@@ -10,7 +12,7 @@ import static java.lang.reflect.Array.newInstance;
  * @author Arsal Shaikh
  * @author Samuel A. Rebelsky
  */
-public class AssociativeArray<K, V> {
+public class AssociativeArray<K, V> implements Iterable<KVPair<K, V>> {
   // +-----------+---------------------------------------------------
   // | Constants |
   // +-----------+
@@ -77,7 +79,13 @@ public class AssociativeArray<K, V> {
    * Convert the array to a string.
    */
   public String toString() {
-    return "{}"; // STUB
+    String output = pairs[0].toString();
+    
+    for (int i = 0; i < pairs.length; i++) {
+      output += ", " + pairs[i].toString();
+    } // for
+
+    return "{" + output + "}";
   } // toString()
 
   // +----------------+----------------------------------------------
@@ -220,4 +228,25 @@ public class AssociativeArray<K, V> {
     // if not found
     throw new KeyNotFoundException();
   } // findNull()
-} // class AssociativeArray
+
+  // ...
+
+  public Iterator<KVPair<K, V>>  iterator() {
+    return new Iterator<KVPair<K, V>>() {
+      int index = AssociativeArray.this.size - 1;
+
+      //@Override 
+      public KVPair<K, V> next() throws NoSuchElementException {
+        if (!this.hasNext()) {
+          throw new NoSuchElementException();
+        } // if (hasNext())
+        return AssociativeArray.this.pairs[this.index++];
+      } // next()
+
+      //@Override
+      public boolean hasNext() {
+        return this.index >= AssociativeArray.this.size;
+      } // hasNext()
+    }; // new Iterator<T>
+  } // iterator()
+} // class AssociativeArray<K, V>
