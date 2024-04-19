@@ -1,5 +1,7 @@
-// import structures.*;
-package structures;
+import structures.AssociativeArray;
+import structures.KVPair;
+import structures.KeyNotFoundException;
+import structures.NullKeyException;
 
 public class AACCategory {
   /**
@@ -29,7 +31,7 @@ public class AACCategory {
 
   /**
    * Method
-   * Adds the mapping of the imageLoc to the text to the category.
+   * Adds the mapping of the imageLoc to the text of the category.
    * @param imageLoc
    * @param text
    */
@@ -58,7 +60,7 @@ public class AACCategory {
   public String[] getImages() {
     String images = "";
     for (KVPair<String, String> pair : this.mappings) {
-      images += ">" + pair.getKey() + " " + pair.getValue() + "\n";
+      images += pair.getKey() + "\n";
     } // for
     
     return images.split("\n");

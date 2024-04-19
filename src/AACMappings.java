@@ -1,15 +1,13 @@
-package structures;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
-
-// import structures.*;
-
-
+import structures.AssociativeArray;
+import structures.KVPair;
+import structures.KeyNotFoundException;
+import structures.NullKeyException;
 
 
 public class AACMappings {
@@ -25,8 +23,8 @@ public class AACMappings {
   /**
    * Fields
   */
-  AssociativeArray<String, AACCategory> categoryMappings; // maps category names to category objects
-  AACCategory homepage; // maps category names too category images
+  AssociativeArray<String, AACCategory> categoryMappings; // maps category images to category objects
+  AACCategory homepage; // maps category images too category text/name
   AACCategory currentCategory; // object tracking the current category being displayed
   File pathFile;
 
@@ -42,24 +40,26 @@ public class AACMappings {
     
     this.pathFile = new File(filename);
     try {
-      String categoryName = null;
+      String categoryImage = null;
+      String categoryText = null;
       String text = null;
       String imagePath;
       Scanner reader = new Scanner(new FileReader(this.pathFile));
-      String currentLine = reader.nextLine();
+      String currentLine;
       String[] currentLineTokens;
       while (reader.hasNextLine()) {
-        currentLineTokens = currentLine.split(" ");
+        currentLine = reader.nextLine();
+        currentLineTokens = currentLine.split(" ", 2);
         
         // if new image
         if (currentLine.startsWith(">")) {
           // Get text and image path of new image
-          imagePath = currentLineTokens[0].substring(0);
-          text = AACMappings.concatStringArray(currentLineTokens, 1, currentLineTokens.length - 1);
+          imagePath = currentLineTokens[0].substring(1);
+          text = currentLineTokens[1];
 
           // Add new entry in the category
           try {
-            this.categoryMappings.get(categoryName).addItem(imagePath, text);
+            this.categoryMappings.get(categoryImage).addItem(imagePath, text);
           } catch (KeyNotFoundException knfe) {
             knfe.printStackTrace();
           } // try catch
@@ -67,17 +67,22 @@ public class AACMappings {
         } else {
           // if new category
           
-          // Get name and image path of the new category
+          // Get image path and text of the new category
           imagePath = currentLineTokens[0];
-          categoryName = AACMappings.concatStringArray(currentLineTokens, 1, currentLineTokens.length - 1);
+          categoryText = currentLineTokens[1];
           
-          // Add new category to ACCMappings and homepage
+          // Add new category to ACCMappings
           try {
-            this.categoryMappings.set(categoryName, new AACCategory(categoryName));
+            this.categoryMappings.set(imagePath, new AACCategory(imagePath));
           } catch (NullKeyException nke) {
             nke.printStackTrace();
           }
-          this.homepage.addItem(categoryName, imagePath);
+
+          // Add new category to the homepage
+          this.homepage.addItem(imagePath, categoryText);
+          
+          // Keep track of the category we are adding to
+          categoryImage = imagePath;
         } // if else
       } // while
 
@@ -182,10 +187,10 @@ public class AACMappings {
       AACCategory currentCategory;
 
       for (KVPair<String, AACCategory> categoryName : this.categoryMappings) {
-        writer.write(categoryName.getKey() + homepage.getText(categoryName.getKey())); // CategoryName + CatImage
+        writer.write(categoryName.getKey() + " " + homepage.getText(categoryName.getKey()) + "\n"); // CategoryName + CatImage
         currentCategory = categoryName.getValue();
         for (KVPair<String, String> catImagepath : currentCategory.mappings) {
-          writer.write(catImagepath.getKey() + catImagepath.getValue());
+          writer.write(">" + catImagepath.getKey() + " " + catImagepath.getValue() + "\n");
         } // for - loops through images within a category
       } // for - loops through categories
   
@@ -194,24 +199,4 @@ public class AACMappings {
       System.err.println("IO Error");
     } // try catch
   } // writeToFile(String)
-
-  /**
-   * Concatenates consecutive arguments in a string array based on startIndex and endIndex.
-   * @param arr
-   * @param startIndex 
-   * @param endIndex
-   * @return output
-   */
-  public static String concatStringArray(String[] arr, int startIndex, int endIndex) {
-    if (startIndex >= endIndex && endIndex >= arr.length) {
-      return "";
-    } // if invalid arguments
-
-    String output = "";
-    for (int i = startIndex; i < endIndex; i++) {
-      output += arr[i];
-    } // for
-
-    return output;
-  } // concatStringArray(String[], int, int)
 } // class AACMappings
